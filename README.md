@@ -1,7 +1,7 @@
 ## Jira MCP Server
 
 This is a simple prototype of a Jira Server/DC MCP server.
-It uses Python APIs for Jira documented [here](https://atlassian-python-api.readthedocs.io/), and the MCP Python SDK.
+It uses Python APIs for Jira documented [here](https://github.com/atlassian-api/atlassian-python-api), and the MCP Python SDK.
 
 ### Run steps
 1. Copy .env.example to .env, and replace ```YOUR_JIRA_HOST_URL``` and ```YOUR_JIRA_PERSONAL_ACCESS_TOKEN```. The Jira host url must belong to a Jira server/ DC (the project is intended for Jira server/ DC). To generate your Personal Access Token, refer the section 'Creating PATs in the application' [here](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html).
