@@ -29,6 +29,24 @@ Include the full paths of the python binary and the mcp_server.py file on your s
 
 2. With Other MCP Clients - The server follows the standard MCP protocol and works with any MCP-compatible client.
 
+### Project Structure
+```
+JiraMCPserver/
+├── jira_client/
+│   ├── __init__.py
+│   │── client.py
+|   |── issue.py
+|   └── project.py
+├── models/
+│   ├── __init__.py
+│   │── constants.py
+|   └── issue.py
+├── mcp_server.py
+├── .env.example
+├── .gitignore
+└── requirements.txt
+```
+
 ### Supported operations -
 This currently supports read-only issue and project management tools, for example
 - "Give me all issues which are related to Recovery and open for more than 90 days"
