@@ -6,7 +6,7 @@ It uses Python APIs for Jira documented [here](https://github.com/atlassian-api/
 ### Run steps
 1. Copy .env.example to .env, and replace ```YOUR_JIRA_HOST_URL``` and ```YOUR_JIRA_PERSONAL_ACCESS_TOKEN```. The Jira host url must belong to a Jira server/ DC (the project is intended for Jira server/ DC). To generate your Personal Access Token, refer the section 'Creating PATs in the application' [here](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html).
 2. Create and activate virtual environment, and install dependencies - ```pip install -r requirements.txt```
-3. Run ```mcp dev mcp_server.py``` - this runs MCP Inspector which is a local way to test the defined tools and responses without involving an LLM.
+3. [Optional - run in dev mode] Run ```mcp dev mcp_server.py``` - this runs MCP Inspector which is a local way to test the defined tools and responses without involving an LLM.
 
 ### MCP Integration
 The server can be started using ```python mcp_server.py```.
