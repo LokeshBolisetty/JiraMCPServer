@@ -109,6 +109,30 @@ def get_issues_count_for_project(project_key: str) -> int:
     """
     return manage_projects.GetIssueCountForProject(project_key)
 
+@mcp.tool()
+def get_linked_issues(issue_key: str, relationship_type: str = None) -> List[Dict]:
+    """
+    Get issues linked to the specified issue.
+    Args:
+        issue_key: The Jira issue key (e.g., "ENG-123")
+        relationship_type: Optional type of relationship. If None, all linked issues are returned.
+    Returns:
+        List of linked issues with their relationship types.
+    """
+    return manage_issues.GetLinkedIssues(issue_key, relationship_type)
+
+@mcp.tool()
+def search_issues_by_text(text: str, max_results: int = 10) -> List[Dict]:
+    """
+    Search for Jira issues containing specific text in title, description, or comments.
+    Args:
+        text: The text to search for (can be error message, stack trace, or any keyword)
+        max_results: Maximum number of issues to return (default: 10)
+    Returns:
+        List of matching issues with key, summary, and status.
+    """
+    return manage_issues.SearchIssuesByText(text, max_results)
+
 
 if __name__ == "__main__":
     mcp.run()
