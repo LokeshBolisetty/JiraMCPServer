@@ -78,6 +78,20 @@ def get_issue_comments(issue_id_or_key: str) -> List[Dict]:
     """
     return manage_issues.GetIssueComments(issue_id_or_key)
 
+@mcp.tool()
+def get_issue_description(issue_key: str) -> str:
+    """
+    Retrieve the description of a specific Jira issue.
+    Args:
+        issue_key: The Jira issue key.
+    Returns:
+        String containing the issue description, or None if no description exists.
+    """
+    issue = manage_issues.GetIssue(issue_key)
+    if isinstance(issue, dict) and "fields" in issue:
+        return issue["fields"].get("description", "No description available")
+    return "Unable to retrieve description"
+
 # Project Management Tools
 
 @mcp.tool()
@@ -136,12 +150,12 @@ def search_issues_by_text(text: str, max_results: int = 10) -> List[Dict]:
 # Issue Creation and Update Tools
 
 @mcp.tool()
-def create_issue(project_key: str, issue_type: str, summary: str, description: str = None, 
-                priority: str = None, labels: List[str] = None, assignee: str = None, 
+def create_issue(project_key: str, issue_type: str, summary: str, description: str = None,
+                priority: str = None, labels: List[str] = None, assignee: str = None,
                 additional_fields: Dict[str, Any] = None) -> Dict[str, Any]:
     """
     Create a new Jira issue.
-    
+
     Args:
         project_key: The project key where the issue will be created
         issue_type: Type of the issue (e.g., 'Bug', 'Task', 'Story')
@@ -151,7 +165,7 @@ def create_issue(project_key: str, issue_type: str, summary: str, description: s
         labels: List of labels to attach to the issue (optional)
         assignee: Username of the assignee (optional)
         additional_fields: Additional fields to set on the issue (optional)
-        
+
     Returns:
         Dictionary with the created issue data
     """
@@ -164,7 +178,7 @@ def update_issue(issue_key: str, summary: str = None, description: str = None,
                status: str = None, additional_fields: Dict[str, Any] = None) -> Dict[str, Any]:
     """
     Update an existing Jira issue.
-    
+
     Args:
         issue_key: The Jira issue key to update
         summary: New summary/title (optional)
@@ -174,7 +188,7 @@ def update_issue(issue_key: str, summary: str = None, description: str = None,
         assignee: New assignee username (optional)
         status: New status/transition (optional)
         additional_fields: Additional fields to update (optional)
-        
+
     Returns:
         Dictionary with the updated issue data
     """
