@@ -126,11 +126,11 @@ class ManageIssues:
 
         return json.dumps(filtered_issues, indent=4)
 
-    def CreateIssue(self, project_key: str, issue_type: str, summary: str, description: str = None, 
-                priority: str = None, labels: list = None, assignee: str = None, 
+    def CreateIssue(self, project_key: str, issue_type: str, summary: str, description: str = None,
+                priority: str = None, labels: list = None, assignee: str = None,
                 additional_fields: Dict[str, Any] = None) -> Dict[str, Any]:
         """Create a new Jira issue.
-        
+
         Args:
             project_key: The project key where the issue will be created
             issue_type: Type of the issue (e.g., 'Bug', 'Task', 'Story')
@@ -140,7 +140,7 @@ class ManageIssues:
             labels: List of labels to attach to the issue
             assignee: Username of the assignee
             additional_fields: Additional fields to set on the issue
-            
+
         Returns:
             Dictionary with the created issue data
         """
@@ -150,24 +150,24 @@ class ManageIssues:
             'issuetype': {'name': issue_type},
             'summary': summary
         }
-        
+
         # Add optional fields if provided
         if description:
             issue_dict['description'] = description
-            
+
         if priority:
             issue_dict['priority'] = {'name': priority}
-            
+
         if labels:
             issue_dict['labels'] = labels
-            
+
         if assignee:
             issue_dict['assignee'] = {'name': assignee}
-            
+
         # Add any additional fields
         if additional_fields:
             issue_dict.update(additional_fields)
-        
+
         try:
             # Create the issue
             new_issue = self.jira.create_issue(fields=issue_dict)
@@ -175,12 +175,12 @@ class ManageIssues:
         except Exception as e:
             # Return error information
             return {'error': str(e)}
-    
+
     def UpdateIssue(self, issue_key: str, summary: str = None, description: str = None,
                    priority: str = None, labels: list = None, assignee: str = None,
                    status: str = None, additional_fields: Dict[str, Any] = None) -> Dict[str, Any]:
         """Update an existing Jira issue.
-        
+
         Args:
             issue_key: The Jira issue key to update
             summary: New summary/title
@@ -190,61 +190,61 @@ class ManageIssues:
             assignee: New assignee username
             status: New status/transition
             additional_fields: Additional fields to update
-            
+
         Returns:
             Dictionary with the updated issue data
         """
         # Build the update fields
         issue_dict = {}
-        
+
         if summary:
             issue_dict['summary'] = summary
-            
+
         if description:
             issue_dict['description'] = description
-            
+
         if priority:
             issue_dict['priority'] = {'name': priority}
-            
+
         if labels:
             issue_dict['labels'] = labels
-            
+
         if assignee:
             issue_dict['assignee'] = {'name': assignee}
-            
+
         # Add any additional fields
         if additional_fields:
             issue_dict.update(additional_fields)
-        
+
         try:
             # Update the issue
             if issue_dict:  # Only update if there are fields to update
-                self.jira.update_issue(issue_key=issue_key, fields=issue_dict)
-            
+                self.jira.update_issue_field(key=issue_key, fields=issue_dict)
+
             # Handle status transition if provided
             if status:
                 # Get available transitions
                 transitions = self.jira.get_issue_transitions(issue_key)
                 transition_id = None
-                
+
                 # Find the transition ID for the requested status
                 for transition in transitions:
                     if transition['name'].lower() == status.lower():
                         transition_id = transition['id']
                         break
-                
+
                 if transition_id:
                     self.jira.issue_transition(issue_key, transition_id)
                 else:
                     return {'error': f'Status transition to "{status}" not available for this issue'}
-            
+
             # Return the updated issue
             updated_issue = self.jira.issue(issue_key)
             return self._remove_null_values(updated_issue)
         except Exception as e:
             # Return error information
             return {'error': str(e)}
-    
+
     # Helper function.
     def _remove_null_values(self, obj):
         """Recursively remove null values from dictionaries and lists."""
