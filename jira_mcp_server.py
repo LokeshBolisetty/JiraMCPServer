@@ -196,5 +196,19 @@ def update_issue(issue_key: str, summary: str = None, description: str = None,
                                    priority, labels, assignee,
                                    status, additional_fields)
 
+@mcp.tool()
+def add_comment(issue_key: str, comment: str) -> Dict[str, Any]:
+    """
+    Add a comment to a Jira issue.
+
+    Args:
+        issue_key: The Jira issue key (e.g., "ENG-123")
+        comment: The comment text to add
+
+    Returns:
+        Dictionary with the created comment data or error
+    """
+    return manage_issues.AddComment(issue_key, comment)
+
 if __name__ == "__main__":
     mcp.run()

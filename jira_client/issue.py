@@ -41,6 +41,22 @@ class ManageIssues:
         """Get comments for a single issue."""
         return self.jira.issue_get_comments(issue_id_or_key)
 
+    def AddComment(self, issue_key: str, comment: str) -> Dict[str, Any]:
+        """Add a comment to a Jira issue.
+
+        Args:
+            issue_key: The Jira issue key
+            comment: The comment text to add
+
+        Returns:
+            Dictionary with the created comment data
+        """
+        try:
+            result = self.jira.issue_add_comment(issue_key, comment)
+            return result if result else {'success': True}
+        except Exception as e:
+            return {'error': str(e)}
+
     def GetIssues(self, jql: str):
         """Get Issues filtered using JQL"""
         issues = self.jira.jql(jql)
